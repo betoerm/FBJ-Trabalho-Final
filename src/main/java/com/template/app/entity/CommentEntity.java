@@ -80,13 +80,12 @@ public class CommentEntity implements IEntity<Long>{
 		this.date = date;
 	}
 	
-	public PostEntity getAuthor() {
+	public PostEntity getPost() {
 		return post;
 	}
 
-	public void setAuthor(PostEntity post) {
+	public void setPost(PostEntity post) {
 		this.post = post;
 	}
-
 
 }

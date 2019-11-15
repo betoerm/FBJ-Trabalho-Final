@@ -28,7 +28,7 @@ public class AuthorRepository {
 		return entityManager;
 	}	
 	
-	public List<AuthorEntity> retrieveAll() {
+	public List<AuthorEntity> retrieveAll(String relationships) {
 		try {
 			
 			String namedQuery = "AuthorEntity.retrieveAll";
@@ -44,12 +44,12 @@ public class AuthorRepository {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
-	public AuthorEntity get(Long id) {
+	public AuthorEntity get(Long id, String relationships) {
 		try {
 			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 			CriteriaQuery  criteriaQuery = criteriaBuilder.createQuery(AuthorEntity.class);
 			Root root = criteriaQuery.from(AuthorEntity.class);
-			root.fetch("employees", JoinType.LEFT);
+			root.fetch("posts", JoinType.LEFT);
 			criteriaQuery.select(root);
 			criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
 

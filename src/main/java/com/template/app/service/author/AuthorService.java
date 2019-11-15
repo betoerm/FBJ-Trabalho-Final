@@ -1,5 +1,6 @@
 package com.template.app.service.author;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -19,9 +20,18 @@ public class AuthorService {
 	//@PersistenceContext(unitName = "author-persistence-unit")
 	//private EntityManager entityManager;
 	
-	public List<AuthorEntity> retrieveAll() {
-		List<AuthorEntity> listAuthors = authorRepository.retrieveAll();
-		return listAuthors;
+	public List<AuthorEntity> retrieveAll(String relationships) {
+		List<AuthorEntity> listAuthors = authorRepository.retrieveAll(relationships);
+		//return listAuthors;
+		
+		List<AuthorEntity> newAuthorList = new ArrayList()<AuthorEntity>();
+		
+		for(AuthorEntity p : listAuthors) {
+			AuthorEntity newP = getAuthorDTO(relationships, p);	
+			newAuthorList.add(newP);
+		}
+		//LOGGER.info("ProductServiceImpl.retrieveAll: "+newProductList);
+		return newAuthorList;
 	}
 	
 	public AuthorEntity get(Long id) {
