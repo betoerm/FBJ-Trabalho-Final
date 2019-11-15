@@ -35,7 +35,7 @@ public class AuthorRest {
 	public List<AuthorEntity> getAllAuthors() throws AppException{
 		//LOGGER.info("AuthorRest.getAllAuthors");
 		//List<AuthorEntity> listAuthors = authorservice.getAllAuthors();		
-		List<AuthorEntity> listAuthors = authorservice.retrieveAll();
+		List<AuthorEntity> listAuthors = authorservice.retrieveAll(null);
 		//LOGGER.info("AuthorRest.getAllAuthors: " + listAuthors);
 		return listAuthors;
 	}
@@ -54,7 +54,7 @@ public class AuthorRest {
 	@Path("/{id}/{relationships}")
 	public AuthorEntity get( @PathParam("id") Long entityId, @PathParam("relationships") String relationships) throws AppException {
 		//LOGGER.info("AuthorRest.get{relationships}");
-		AuthorEntity p =  authorservice.get(entityId, relationships);
+		AuthorEntity p =  authorservice.get(entityId, "");
 		//LOGGER.info("AuthorRest.get{relationships}: "+p);
 		return p;
 	}

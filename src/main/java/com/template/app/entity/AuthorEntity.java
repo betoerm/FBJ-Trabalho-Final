@@ -64,12 +64,12 @@ public class AuthorEntity implements IEntity<Long>{
 	}
 	
 
-	public List<PostEntity> getImages() {
+	public List<PostEntity> getPosts() {
 		return posts;
 	}
 
 
-	public void setPost(List<PostEntity> posts) {
+	public void setPosts(List<PostEntity> posts) {
 		this.posts = posts;
 	}
 	
