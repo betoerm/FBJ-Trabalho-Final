@@ -9,16 +9,18 @@ import javax.inject.Inject;
 import com.template.app.entity.CommentEntity;
 import com.template.app.service.repository.comment.CommentRepository;
 
+
 @Stateless
 @Local
-public class CommentService {
+
+public class CommentService{
 	
 	@Inject
 	private CommentRepository commentRepository;
 	
-	public List<CommentEntity> retrieveAll() {
-		List<CommentEntity> listComments = commentRepository.retrieveAll();
-		return listComments;
+	public List<CommentEntity> retrieveAll(){
+		List<CommentEntity> commentList = commentRepository.retrieveAll();
+		return commentList;
 	}
 	
 	public CommentEntity get(Long id) {
@@ -26,12 +28,5 @@ public class CommentService {
 		return commentEntity;
 	}
 	
-	public CommentEntity create(CommentEntity commentEntity) {		
-		return commentRepository.persist(commentEntity);
-	}
-	
-	public void delete(CommentEntity commentEntity) {
-		commentRepository.delete(commentEntity);
-	}
-	
 }
+

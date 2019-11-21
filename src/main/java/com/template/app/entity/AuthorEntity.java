@@ -1,18 +1,12 @@
 package com.template.app.entity;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,50 +22,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-	@NamedQuery(name = "AuthorEntity.retrieveAll", query = "Select distinct a from AuthorEntity a")
+	@NamedQuery(name = "AuthorEntity.retrieveAll", query = "Select Distinct a from AuthorEntity a")
 })
 
 public class AuthorEntity implements IEntity<Long>{
-	
 	private static final long serialVersionUID = 1L;
-	
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AUTHOR_ID_GENERATOR")
 	private Long id;
 	
-	@NotNull 
+	@NotNull
 	@Size(max = 100)
 	@Column
 	private String name;
-		
-	@OneToMany (targetEntity = PostEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="author")
-	private List<PostEntity> posts;
 	
+	public AuthorEntity(){
+		
+	}
+	
+	public AuthorEntity(Long id) {
+		this.id = id;
+	}
+	
+	@Override
 	public Long getId() {
 		return id;
 	}
 	
+	@Override
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-
-	public List<PostEntity> getPosts() {
-		return posts;
-	}
-
-
-	public void setPosts(List<PostEntity> posts) {
-		this.posts = posts;
-	}
-	
-
+	}	
 }

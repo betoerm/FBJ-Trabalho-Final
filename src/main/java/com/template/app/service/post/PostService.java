@@ -11,14 +11,15 @@ import com.template.app.service.repository.post.PostRepository;
 
 @Stateless
 @Local
-public class PostService {
+
+public class PostService{
 	
 	@Inject
 	private PostRepository postRepository;
 	
-	public List<PostEntity> retrieveAll() {
-		List<PostEntity> listPosts = postRepository.retrieveAll();
-		return listPosts;
+	public List<PostEntity> retrieveAll(){
+		List<PostEntity> postList = postRepository.retrieveAll();
+		return postList;
 	}
 	
 	public PostEntity get(Long id) {
@@ -26,12 +27,5 @@ public class PostService {
 		return postEntity;
 	}
 	
-	public PostEntity create(PostEntity postEntity) {		
-		return postRepository.persist(postEntity);
-	}
-	
-	public void delete(PostEntity postEntity) {
-		postRepository.delete(postEntity);
-	}
-	
 }
+

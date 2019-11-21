@@ -1,5 +1,6 @@
 package com.template.app.entity;
 
+import java.util.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -31,48 +32,57 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
 	@NamedQuery(name = "CommentEntity.retrieveAll", query = "Select distinct c from CommentEntity c")
 })
-
 public class CommentEntity implements IEntity<Long>{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMMENT_ID_GENERATOR")
 	private Long id;
 	
-	@NotNull 
-	@Size(max = 500)
+	@ManyToOne(targetEntity = PostEntity.class)
+	@JoinColumn(name = "POST_ID", referencedColumnName = "ID")
+	@XmlTransient
+	private PostEntity postEntity;
+	
+	@NotNull
+	@Size(max = 100)
 	@Column
 	private String content;
 	
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column
-	private Timestamp date; 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date")
+	private Date date;	
 	
-	@ManyToOne(targetEntity = CommentEntity.class)
-	@JoinColumn(name = "POST_ID", referencedColumnName = "ID")
-	@XmlTransient
-	private PostEntity post;
-	
-	
-	public Long getId() {
-		return id;
+	public PostEntity getPostEntity() {
+		return postEntity;
 	}
 	
-	public void setId(Long id) {
+	public void setPostEntity(PostEntity postEntity) {
+		this.postEntity = postEntity;
+	}
+	
+	public CommentEntity() {
+		
+	}	
+	
+	public CommentEntity(Long id, PostEntity postEntity, String content, Date date) {
 		this.id = id;
+		this.postEntity = postEntity;
+		this.content = content;		
+		this.date = date;
 	}
-
+	
 	public String getContent() {
 		return content;
 	}
-
+	
 	public void setContent(String content) {
 		this.content = content;
 	}
 	
-	public Timestamp getDate() {
+	public Date date() {
 		return date;
 	}
 	
@@ -80,12 +90,13 @@ public class CommentEntity implements IEntity<Long>{
 		this.date = date;
 	}
 	
-	public PostEntity getPost() {
-		return post;
+	@Override
+	public Long getId() {
+		return id;
 	}
-
-	public void setPost(PostEntity post) {
-		this.post = post;
+	
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
-
 }

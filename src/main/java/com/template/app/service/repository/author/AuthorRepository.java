@@ -13,7 +13,6 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import com.template.app.entity.AuthorEntity;
-import com.template.app.entity.PostEntity;
 import com.template.app.exception.AppException;
 import com.template.app.messages.AppBeanMessages;
 
@@ -29,7 +28,7 @@ public class AuthorRepository {
 		return entityManager;
 	}	
 	
-	public List<AuthorEntity> retrieveAll(String relationships) {
+	public List<AuthorEntity> retrieveAll() {
 		try {
 			
 			String namedQuery = "AuthorEntity.retrieveAll";
@@ -46,12 +45,12 @@ public class AuthorRepository {
 		}
 	}
 	
-	public AuthorEntity get(Long id, String relationships) {
+	public AuthorEntity get(Long id) {
 		try {
 			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-			CriteriaQuery  criteriaQuery = criteriaBuilder.createQuery(AuthorEntity.class);
+			CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(AuthorEntity.class);
 			Root root = criteriaQuery.from(AuthorEntity.class);
-			root.fetch("posts", JoinType.LEFT);
+			//root.fetch("posts", JoinType.LEFT);
 			criteriaQuery.select(root);
 			criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
 
@@ -88,24 +87,5 @@ public class AuthorRepository {
 		}
 		
 	}
-	
-	public AuthorEntity get(Long id) {		
-		return get(id, "");
-	}
-	
-	
-	public List<PostEntity> getPosts(Long id) {
-		try{
-			Query query = getEntityManager().createNamedQuery("AuthorEntity.getPosts");
-			query.setParameter("id", id);
-			List<PostEntity> list = (List<PostEntity>)query.getResultList( );
-			return list;
-		} catch (AppException e) {
-			throw e;
-		} catch (Exception e) {
-			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
-		}
-	}
-	
 	
 }

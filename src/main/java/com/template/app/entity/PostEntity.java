@@ -1,5 +1,6 @@
 package com.template.app.entity;
 
+import java.util.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -29,50 +30,60 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-	@NamedQuery(name = "PostEntity.retrieveAll", query = "Select distinct p from PostEntity p")
+	@NamedQuery(name = "PostEntity.retrieveAll", query = "Select distinct p from PostEntity p ")
 })
 
 public class PostEntity implements IEntity<Long>{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_ID_GENERATOR")
 	private Long id;
-	
-	@NotNull 
-	@Size(max = 500)
-	@Column
-	private String content;
-	
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column
-	private Timestamp date; 
 	
 	@ManyToOne(targetEntity = AuthorEntity.class)
 	@JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID")
 	@XmlTransient
-	private AuthorEntity author;
+	private AuthorEntity authorEntity;
 	
+	@NotNull
+	@Size(max = 100)
+	@Column
+	private String content;
 	
-	public Long getId() {
-		return id;
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date")
+	private Date date;	
+	
+	public AuthorEntity geAuthorEntity() {
+		return authorEntity;
 	}
 	
-	public void setId(Long id) {
+	public void setAuthorEntity(AuthorEntity authorEntity) {
+		this.authorEntity = authorEntity;
+	}
+	
+	public PostEntity() {
+		
+	}	
+	
+	public PostEntity(Long id, AuthorEntity authorEntity, String content, Date date) {
 		this.id = id;
+		this.authorEntity = authorEntity;
+		this.content = content;	
+		this.date = date;
 	}
-
+	
 	public String getContent() {
 		return content;
 	}
-
+	
 	public void setContent(String content) {
 		this.content = content;
 	}
 	
-	public Timestamp getDate() {
+	public Date date() {
 		return date;
 	}
 	
@@ -80,13 +91,13 @@ public class PostEntity implements IEntity<Long>{
 		this.date = date;
 	}
 	
-	public AuthorEntity getAuthor() {
-		return author;
+	@Override
+	public Long getId() {
+		return id;
 	}
-
-	public void setAuthor(AuthorEntity author) {
-		this.author = author;
+	
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
-
-
 }
