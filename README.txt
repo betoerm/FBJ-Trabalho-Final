@@ -2,7 +2,9 @@ README
 
 Comments:
 =========
-
+http://localhost:8080/templatejee/author/all
+http://localhost:8080/templatejee/comment/all
+http://localhost:8080/templatejee/post/all
 
 
 Commands:

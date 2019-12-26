@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-	@NamedQuery(name = "CommentEntity.retrieveAll", query = "Select distinct c from CommentEntity c order by date")
+	@NamedQuery(name = "CommentEntity.retrieveAll", query = "Select distinct c from CommentEntity c order by c.date")
 })
 public class CommentEntity implements IEntity<Long>{
 	
