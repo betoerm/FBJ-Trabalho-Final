@@ -1,5 +1,8 @@
 package com.template.app.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -36,12 +40,17 @@ public class AuthorEntity implements IEntity<Long>{
 	@Column
 	private String name;
 	
+	@OneToMany (targetEntity = PostEntity.class, cascade=CascadeType.ALL, mappedBy="authorEntity")
+	private List<PostEntity> listPostEntity;
+	
 	public AuthorEntity(){
 		
 	}
 	
-	public AuthorEntity(Long id) {
+	public AuthorEntity(Long id, String name, List<PostEntity> listPostEntity) {
 		this.id = id;
+		this.name = name;
+		this.listPostEntity = listPostEntity; 
 	}
 	
 	@Override

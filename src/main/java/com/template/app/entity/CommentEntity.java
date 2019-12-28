@@ -54,15 +54,7 @@ public class CommentEntity implements IEntity<Long>{
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date")
 	private Date date;	
-	
-	public PostEntity getPostEntity() {
-		return postEntity;
-	}
-	
-	public void setPostEntity(PostEntity postEntity) {
-		this.postEntity = postEntity;
-	}
-	
+		
 	public CommentEntity() {
 		
 	}	
@@ -73,6 +65,24 @@ public class CommentEntity implements IEntity<Long>{
 		this.content = content;		
 		this.date = date;
 	}
+	
+	@Override
+	public Long getId() {
+		return id;
+	}
+	
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}	
+	
+	public PostEntity getPostEntity() {
+		return postEntity;
+	}
+	
+	public void setPostEntity(PostEntity postEntity) {
+		this.postEntity = postEntity;
+	}	
 	
 	public String getContent() {
 		return content;
@@ -88,15 +98,5 @@ public class CommentEntity implements IEntity<Long>{
 	
 	public void setDate(Timestamp date) {
 		this.date = date;
-	}
-	
-	@Override
-	public Long getId() {
-		return id;
-	}
-	
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
+	}	
 }

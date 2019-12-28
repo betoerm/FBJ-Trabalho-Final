@@ -21,7 +21,7 @@ import com.template.app.messages.AppBeanMessages;
 
 public class CommentRepository{
 	
-	@PersistenceContext(unitName = "author-persistence-unit")
+	@PersistenceContext(unitName = "blog-persistence-unit")
 	private EntityManager entityManager;
 	
 	private EntityManager getEntityManager() {
@@ -47,19 +47,44 @@ public class CommentRepository{
 	
 	public CommentEntity get(Long id) {
 		try {
-			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-			CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(CommentEntity.class);
-			Root root = criteriaQuery.from(CommentEntity.class);
-			root.fetch("post", JoinType.LEFT);
-			criteriaQuery.select(root);
-			criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
-			CommentEntity postEntity = (CommentEntity)getEntityManager().createQuery(criteriaQuery).getSingleResult();
-			return postEntity;			
-		} catch(AppException e) {
+			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+			CriteriaQuery q = cb.createQuery(CommentEntity.class);
+			Root o = q.from(CommentEntity.class);
+			o.fetch("postEntity", JoinType.LEFT);
+			q.select(o);
+			q.where(cb.equal(o.get("id"), id));
+
+			CommentEntity c = (CommentEntity)getEntityManager().createQuery(q).getSingleResult();	
+
+			return c;
+
+		} catch (AppException e) {
 			throw e;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
+	
+	public CommentEntity persist(CommentEntity commentEntity) {
+		try {
+			getEntityManager().persist(commentEntity);
+			return commentEntity;
+		} catch (AppException e) {
+			throw e;
+		} catch (Exception e) {
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}		
+	}
+
+	public void delete(CommentEntity commentEntity) {
+		try {
+			getEntityManager().remove(commentEntity);
+		} catch (AppException e) {
+			throw e;
+		} catch (Exception e) {
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}		
+	}
+	
 }
 

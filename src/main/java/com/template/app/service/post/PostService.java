@@ -6,6 +6,7 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.template.app.entity.AuthorEntity;
 import com.template.app.entity.PostEntity;
 import com.template.app.service.repository.post.PostRepository;
 
@@ -25,6 +26,14 @@ public class PostService{
 	public PostEntity get(Long id) {
 		PostEntity postEntity = postRepository.get(id);
 		return postEntity;
+	}
+	
+	public PostEntity create(PostEntity postEntity) {
+		return postRepository.persist(postEntity);
+	}
+	
+	public void delete(PostEntity postEntity) {
+		postRepository.delete(postEntity);
 	}
 	
 }

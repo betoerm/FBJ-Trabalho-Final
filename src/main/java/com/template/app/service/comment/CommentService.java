@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.template.app.entity.CommentEntity;
+import com.template.app.entity.PostEntity;
 import com.template.app.service.repository.comment.CommentRepository;
 
 
@@ -26,6 +27,14 @@ public class CommentService{
 	public CommentEntity get(Long id) {
 		CommentEntity commentEntity = commentRepository.get(id);
 		return commentEntity;
+	}
+	
+	public CommentEntity create(CommentEntity commentEntity) {
+		return commentRepository.persist(commentEntity);
+	}
+	
+	public void delete(CommentEntity commentEntity) {
+		commentRepository.delete(commentEntity);
 	}
 	
 }

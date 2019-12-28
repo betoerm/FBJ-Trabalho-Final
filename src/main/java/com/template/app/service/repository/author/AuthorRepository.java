@@ -20,7 +20,7 @@ import com.template.app.messages.AppBeanMessages;
 @Local
 public class AuthorRepository {
 	
-	@PersistenceContext(unitName = "author-persistence-unit")
+	@PersistenceContext(unitName = "blog-persistence-unit")
 	private EntityManager entityManager;
 
 	private EntityManager getEntityManager()
@@ -47,16 +47,16 @@ public class AuthorRepository {
 	
 	public AuthorEntity get(Long id) {
 		try {
-			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-			CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(AuthorEntity.class);
-			Root root = criteriaQuery.from(AuthorEntity.class);
-			//root.fetch("posts", JoinType.LEFT);
-			criteriaQuery.select(root);
-			criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
+			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+			CriteriaQuery q = cb.createQuery(AuthorEntity.class);
+			Root o = q.from(AuthorEntity.class);
+			o.fetch("listPostEntity", JoinType.LEFT);
+			q.select(o);
+			q.where(cb.equal(o.get("id"), id));
 
-			AuthorEntity authorEntity = (AuthorEntity)getEntityManager().createQuery(criteriaQuery).getSingleResult();	
+			AuthorEntity a = (AuthorEntity)getEntityManager().createQuery(q).getSingleResult();	
 
-			return authorEntity;
+			return a;
 
 		} catch (AppException e) {
 			throw e;
@@ -64,6 +64,7 @@ public class AuthorRepository {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
 	}
+
 
 	public AuthorEntity persist(AuthorEntity authorEntity) {
 		try {

@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
+import com.template.app.entity.AuthorEntity;
 import com.template.app.entity.PostEntity;
 import com.template.app.exception.AppException;
 import com.template.app.messages.AppBeanMessages;
@@ -21,7 +22,7 @@ import com.template.app.messages.AppBeanMessages;
 
 public class PostRepository{
 	
-	@PersistenceContext(unitName = "author-persistence-unit")
+	@PersistenceContext(unitName = "blog-persistence-unit")
 	private EntityManager entityManager;
 	
 	private EntityManager getEntityManager() {
@@ -35,8 +36,7 @@ public class PostRepository{
 			Query query = getEntityManager().createNamedQuery(namedQuery);
 			
 			List<PostEntity> list = (List<PostEntity>)query.getResultList();
-			return list;
-			
+			return list;	
 			
 		} catch(AppException e) {
 			throw e;
@@ -45,21 +45,46 @@ public class PostRepository{
 		}
 	}
 	
+
 	public PostEntity get(Long id) {
 		try {
-			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-			CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(PostEntity.class);
-			Root root = criteriaQuery.from(PostEntity.class);
-			root.fetch("author", JoinType.LEFT);
-			criteriaQuery.select(root);
-			criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
-			PostEntity postEntity = (PostEntity)getEntityManager().createQuery(criteriaQuery).getSingleResult();
-			return postEntity;			
-		} catch(AppException e) {
+			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+			CriteriaQuery q = cb.createQuery(PostEntity.class);
+			Root o = q.from(PostEntity.class);
+			o.fetch("authorEntity", JoinType.LEFT);
+			q.select(o);
+			q.where(cb.equal(o.get("id"), id));
+			PostEntity p = (PostEntity)getEntityManager().createQuery(q).getSingleResult();	
+			return p;
+
+		} catch (AppException e) {
 			throw e;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
 		}
+	}
+	
+	public PostEntity persist(PostEntity postEntity) {
+		try {
+			getEntityManager().persist(postEntity);
+			return postEntity;
+		} catch (AppException e) {
+			throw e;
+		} catch (Exception e) {
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+		
+	}
+
+	public void delete(PostEntity postEntity) {
+		try {
+			getEntityManager().remove(postEntity);
+		} catch (AppException e) {
+			throw e;
+		} catch (Exception e) {
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+		
 	}
 }
 
