@@ -43,7 +43,7 @@ public class CommentEntity implements IEntity<Long>{
 	@ManyToOne(targetEntity = PostEntity.class)
 	@JoinColumn(name = "POST_ID", referencedColumnName = "ID")
 	@XmlTransient
-	private PostEntity postEntity;
+	private PostEntity post;
 	
 	@NotNull
 	@Size(max = 100)
@@ -59,9 +59,9 @@ public class CommentEntity implements IEntity<Long>{
 		
 	}	
 	
-	public CommentEntity(Long id, PostEntity postEntity, String content, Date date) {
+	public CommentEntity(Long id, PostEntity post, String content, Date date) {
 		this.id = id;
-		this.postEntity = postEntity;
+		this.post = post;
 		this.content = content;		
 		this.date = date;
 	}
@@ -76,12 +76,12 @@ public class CommentEntity implements IEntity<Long>{
 		this.id = id;
 	}	
 	
-	public PostEntity getPostEntity() {
-		return postEntity;
+	public PostEntity getPost() {
+		return post;
 	}
 	
-	public void setPostEntity(PostEntity postEntity) {
-		this.postEntity = postEntity;
+	public void setPost(PostEntity post) {
+		this.post = post;
 	}	
 	
 	public String getContent() {
@@ -96,7 +96,7 @@ public class CommentEntity implements IEntity<Long>{
 		return date;
 	}
 	
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setDate(Date date2) {
+		this.date = date2;
 	}	
 }

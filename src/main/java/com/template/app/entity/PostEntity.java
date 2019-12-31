@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @NamedQueries({
-	@NamedQuery(name = "PostEntity.retrieveAll", query = "Select distinct p from PostEntity p order by p.date")
+	@NamedQuery(name = "PostEntity.retrieveAll", query = "Select distinct p from PostEntity p order by p.date")	
 })
 
 public class PostEntity implements IEntity<Long>{
@@ -47,7 +47,7 @@ public class PostEntity implements IEntity<Long>{
 	@ManyToOne(targetEntity = AuthorEntity.class)
 	@JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID")
 	@XmlTransient
-	private AuthorEntity authorEntity;
+	private AuthorEntity author;
 	
 	@NotNull
 	@Size(max = 1000)
@@ -59,16 +59,16 @@ public class PostEntity implements IEntity<Long>{
 	@Column(name = "date")
 	private Date date;
 		
-	@OneToMany (targetEntity = CommentEntity.class, cascade=CascadeType.ALL, mappedBy="postEntity")
+	@OneToMany (targetEntity = CommentEntity.class, cascade=CascadeType.ALL, mappedBy="post")
 	private List<CommentEntity> listCommentEntity;
 	
 	public PostEntity() {
 		
 	}
 	
-	public PostEntity(Long id, AuthorEntity authorEntity, String content, Date date, List<CommentEntity> listCommentEntity) {
+	public PostEntity(Long id, AuthorEntity author, String content, Date date, List<CommentEntity> listCommentEntity) {
 		this.id = id;
-		this.authorEntity = authorEntity;		
+		this.author = author;		
 		this.content = content;	
 		this.date = date;
 		this.listCommentEntity = listCommentEntity;
@@ -84,12 +84,12 @@ public class PostEntity implements IEntity<Long>{
 		this.id = id;
 	}
 	
-	public AuthorEntity geAuthorEntity() {
-		return authorEntity;
+	public AuthorEntity getAuthor() {
+		return author;
 	}
 	
-	public void setAuthorEntity(AuthorEntity authorEntity) {
-		this.authorEntity = authorEntity;
+	public void setAuthor(AuthorEntity author) {
+		this.author = author;
 	}
 	
 	public List<CommentEntity> getListCommentEntity() {
@@ -108,11 +108,11 @@ public class PostEntity implements IEntity<Long>{
 		this.content = content;
 	}
 	
-	public Date date() {
+	public Date getDate() {
 		return date;
 	}
 	
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setDate(Date date2) {
+		this.date = date2;
 	}	
 }

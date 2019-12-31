@@ -24,8 +24,13 @@ public class PostService{
 	}
 	
 	public PostEntity get(Long id) {
-		PostEntity postEntity = postRepository.get(id);
-		return postEntity;
+		PostEntity post = postRepository.get(id);
+		return post;
+	}
+	
+	public List<PostEntity> getByAuthor(Long id) {
+		List<PostEntity> postList = postRepository.getByAuthor(id);
+		return postList;
 	}
 	
 	public PostEntity create(PostEntity postEntity) {

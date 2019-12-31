@@ -25,8 +25,13 @@ public class CommentService{
 	}
 	
 	public CommentEntity get(Long id) {
-		CommentEntity commentEntity = commentRepository.get(id);
-		return commentEntity;
+		CommentEntity comment = commentRepository.get(id);
+		return comment;
+	}
+	
+	public List<CommentEntity> getByPosts(Long id) {
+		List<CommentEntity> commentList = commentRepository.getByPosts(id);
+		return commentList;
 	}
 	
 	public CommentEntity create(CommentEntity commentEntity) {

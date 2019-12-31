@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.template.app.entity.*;
 import com.template.app.service.author.AuthorService;
+import com.template.app.service.repository.author.AuthorRepository;
 import com.template.app.exception.AppException;
 
 @Path("/author")
@@ -24,6 +25,9 @@ public class AuthorRest {
 	
 	@Inject
 	private AuthorService authorService;
+	
+	@Inject
+	private AuthorRepository authorRepository;
 	
 	@GET
 	@Path("/all")
@@ -39,9 +43,11 @@ public class AuthorRest {
 	}
 	
 	@DELETE
-	@Path("/delete")
-	public void delete(AuthorEntity authorEntity) throws AppException{
-		authorService.delete(authorEntity);
+	@Path("/delete/{id}")
+	public void delete(@PathParam("id") Long authorId) throws AppException{		
+		AuthorEntity author = new AuthorEntity();
+		author = authorRepository.get(authorId);
+		authorService.delete(author);
 	}
 	
 	@GET

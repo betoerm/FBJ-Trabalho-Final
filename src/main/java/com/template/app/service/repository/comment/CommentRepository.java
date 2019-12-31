@@ -12,7 +12,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
+import com.template.app.entity.AuthorEntity;
 import com.template.app.entity.CommentEntity;
+import com.template.app.entity.PostEntity;
 import com.template.app.exception.AppException;
 import com.template.app.messages.AppBeanMessages;
 
@@ -50,7 +52,7 @@ public class CommentRepository{
 			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 			CriteriaQuery q = cb.createQuery(CommentEntity.class);
 			Root o = q.from(CommentEntity.class);
-			o.fetch("postEntity", JoinType.LEFT);
+			//o.fetch("postEntity", JoinType.LEFT);
 			q.select(o);
 			q.where(cb.equal(o.get("id"), id));
 
@@ -58,6 +60,24 @@ public class CommentRepository{
 
 			return c;
 
+		} catch (AppException e) {
+			throw e;
+		} catch (Exception e) {
+			throw AppBeanMessages.PERSISTENCE_ERROR.create(e, e.getMessage());
+		}
+	}
+	
+
+	public List<CommentEntity> getByPosts(Long id) {
+		try {
+			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+			CriteriaQuery q = cb.createQuery(CommentEntity.class);
+			Root o = q.from(CommentEntity.class);
+			o.fetch("post", JoinType.LEFT);
+			q.select(o);
+			q.where(cb.equal(o.get("post"), id));
+			List<CommentEntity> list = (List<CommentEntity>)getEntityManager().createQuery(q).getResultList();
+			return list;
 		} catch (AppException e) {
 			throw e;
 		} catch (Exception e) {

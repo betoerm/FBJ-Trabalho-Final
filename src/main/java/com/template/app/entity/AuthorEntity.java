@@ -40,7 +40,7 @@ public class AuthorEntity implements IEntity<Long>{
 	@Column
 	private String name;
 	
-	@OneToMany (targetEntity = PostEntity.class, cascade=CascadeType.ALL, mappedBy="authorEntity")
+	@OneToMany (targetEntity = PostEntity.class, cascade=CascadeType.ALL, mappedBy="author")
 	private List<PostEntity> listPostEntity;
 	
 	public AuthorEntity(){
